@@ -89,3 +89,13 @@ cf push saa -p ~/.m2/repository/com/vmware/tanzu/spring/application-advisor-serv
 ```bash
 kind delete cluster -n korifi
 ```
+
+
+### Deploy pipeline
+
+```bash
+fly -t saa set-pipeline -p spring-application-advisor -c ./saa-concourse-pipeline.yaml -v github-token=$GITHUB_TOKEN -v git-username=dashaun
+
+
+fly -t bcn set-pipeline -p cf-deploy-saa -c pipelines/cf-deploy-saa.yml -v saa-user=$SAA_USER -v saa-pass=$SAA_TOKEN -v dockerhub-user=$DOCKER_USER -v dockerhub-token=$DOCKER_PASS -v git-username=$GIT_USER -v git-password=$GIT_PASS -n
+```

@@ -1,3 +1,3 @@
 # Spring Application Advisor Workshop
 
-## Spring Authorization Server 1.1.2
+## Spring Application Advisor Server 1.1.2

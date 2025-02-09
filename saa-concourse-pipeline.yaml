@@ -1,0 +1,76 @@
+---
+resources:
+  - name: repo
+    type: git
+    icon: github
+    source:
+      branch: main
+      fetch_tags: true
+      git_config:
+        - name: safe.directory
+          value: '*'
+      password: ((github-token))
+      skip_ssl_verification: true
+      uri: https://github.com/dashaun-demo/spring-petclinic.git
+      username: ((git-username))
+  - name: every-3-hours
+    type: time
+    icon: clock-outline
+    source:
+      interval: 3h
+
+jobs:
+  - name: hello-world
+    public: true
+    plan:
+      - task: print-message
+        config:
+          platform: linux
+          image_resource:
+            type: docker-image
+            source:
+              repository: alpine
+          run:
+            path: sh
+            args:
+              - -c
+              - echo "Hello, Concourse!"
+
+  - name: spring-application-advisor
+    serial: true
+    public: true
+    plan:
+      - get: every-3-hours
+        trigger: true
+      - get: repo
+        trigger: true
+        params: { depth: 1 }
+      - task: spring-application-advisor
+        privileged: true
+        config:
+          platform: linux
+          image_resource:
+            type: docker-image
+            source:
+              repository: arm64v8/alpine
+              platform:
+          inputs:
+            - name: repo
+          run:
+            path: /bin/bash
+            args:
+              - -exc
+              - |
+                set +x
+                export GIT_TOKEN_FOR_PRS=((github-token))
+                export ADVISOR_SERVER=https://saa-remix.dashaun.live
+                source "/root/.sdkman/bin/sdkman-init.sh"
+                cd repo
+                sdk install java 21.0.2-graalce
+                sdk use java 21.0.2-graalce
+                set -x
+                git checkout main
+                advisor -version
+                advisor build-config get
+                advisor upgrade-plan get
+                advisor upgrade-plan apply --push
