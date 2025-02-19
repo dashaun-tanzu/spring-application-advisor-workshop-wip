@@ -1,18 +1,18 @@
-## Spring Authorization Server 1.4 Workshop
+## Spring Application Advisor Workshop
 
-### Agenda 3-hours
+### Agenda
 
-- Local install
-  - Make available ASAP
-  - Local Authorization Server (Commercial version)
-- OAuth 2.0 overview
-- Token Exchange grant
-- Passkeys
-- OTP
-  - Have existing OTP logic
-- Single-Sign On
-  - LDAP (OAuthDB) (Main App DB)
-- Custom UI
-  - OAuth Admin, simple UI, CRUD clients
-- Database Schema comparison / Migration
-- Performance & Tuning
+- Upgrading to Java 17 - Hands On
+- OpenRewrite
+- SPS
+  - Security
+  - Performance
+  - Savings
+- Spring Boot Migrator
+- Recipe Authoring 
+- Recipe Catalog
+- Spring Application Advisor Server
+- Spring Application Advisor CLI
+- Best Practices
+- Continuous Migration
+- Workshop
